@@ -1,6 +1,10 @@
 # Ethereum Balance Checker
-
 A full-stack web application to check Ethereum (ETH, USDC, LINK) balances for any Ethereum address. The app features a React + Vite frontend and an Express + TypeScript backend, using the Viem library for blockchain interactions.
+
+
+Video Preview
+
+https://github.com/user-attachments/assets/6b1d2321-8115-4707-ae39-6f422e507b71
 
 ## Features
 - Check balances for ETH, USDC, and LINK on Ethereum mainnet
@@ -74,8 +78,8 @@ Set this to your backend URL if running on a different host/port.
 ## Troubleshooting
 - Ensure both backend and frontend are running.
 - Check that the backend port matches `VITE_BACKEND_API_URL` in the frontend `.env`.
-- For CORS issues, verify both servers are on the same host or configure appropriately.
-- For blockchain errors, ensure you have internet access and the backend can reach Ethereum mainnet.
+- For CORS issues, verify that both servers are on the same host or configure appropriately.
+- For blockchain errors, ensure you have internet access and the backend can reach the Ethereum mainnet.
 
 ## Contact & Contributing
-Created by Karandeep Singh. Contributions and issues are welcome! 
+Created by Karandeep Singh.

@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner"
 import type { BalanceResponse } from "./types";
 import AddressForm from "./components/AddressForm";
+import BalanceDisplay from "./components/BalanceDisplay";
 
 
 function App() {
@@ -21,8 +24,8 @@ function App() {
       
       const data: BalanceResponse = await response.json();
       setBalanceData(data);
-     
     } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Unknown error occurred");
       setBalanceData(null);
     } finally {
       setLoading(false);
@@ -38,8 +41,18 @@ function App() {
         
         <div className="max-w-md mx-auto">
           <AddressForm onSubmit={fetchBalances} loading={loading} />
+          
+          {balanceData && (
+            <BalanceDisplay 
+              address={balanceData.address} 
+              tokenInfo={balanceData.tokenInfo} 
+              timestamp={balanceData.timestamp}
+              cached={balanceData.cached}
+            />
+          )}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

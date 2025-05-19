@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import { TOKENS } from './config/tokens';
 import { 
   createPublicClient, 
@@ -13,6 +14,7 @@ import { ERRORS, STATUS_CODES } from './constants/errors';
 import { BalanceResponse, TokenInfo } from './types';
 import { balanceCache } from './services/cache';
 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 4000;
 

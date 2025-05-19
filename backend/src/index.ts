@@ -11,6 +11,7 @@ import { mainnet } from 'viem/chains';
 import { erc20Abi } from 'viem';
 import { ERRORS, STATUS_CODES } from './constants/errors';
 import { BalanceResponse, TokenInfo } from './types';
+import { balanceCache } from './services/cache';
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 4000;
@@ -34,6 +35,18 @@ app.get('/api/balance', (req, res) => {
     if (!address || !isAddress(address)) {
       return res.status(STATUS_CODES.BAD_REQUEST).json({ error: ERRORS.INVALID_ADDRESS });
     }
+
+    // Check cache before making RPC calls
+    const cachedResult = balanceCache.get(address);
+    if (cachedResult) {
+      console.log(`Cache hit for address: ${address}`);
+      return res.json({
+        ...cachedResult,
+        cached: true
+      });
+    }
+    
+    console.log(`Cache miss for address: ${address}, fetching from blockchain...`);
     
     const tokenInfo: Record<string, TokenInfo> = {};
 
@@ -101,6 +114,9 @@ app.get('/api/balance', (req, res) => {
       timestamp: Date.now()
     };
     
+    // Store in cache
+    balanceCache.set(address, balanceResponse);
+
     res.json(balanceResponse);
   })().catch((err) => {
     res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ 
